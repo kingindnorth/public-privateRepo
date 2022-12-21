@@ -11,8 +11,9 @@
     <title>StoryBooks</title>
 </head>
 
-<body>
+<body>  {{#if isAuthenticated}}
         {{> nav }}
+        {{/if}}
     <div class="container">
         {{{body}}}
     </div>
