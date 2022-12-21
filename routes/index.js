@@ -1,7 +1,10 @@
 const router = require("express").Router()
 
 router.get("/",(req,res)=>{
-    res.send("login with google")
+    res.render("index")
 })
 
+router.get("/dashboard",(req,res)=>{
+    res.render("dashboard")
+})
 module.exports = router

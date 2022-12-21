@@ -37,7 +37,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 //routes
-app.use("/index",require("./routes/index"))
+app.use("/",require("./routes/index"))
 app.use("/auth",require("./routes/auth"))
 
 const PORT = process.env.PORT || 5000
