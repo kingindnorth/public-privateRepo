@@ -1,8 +1,13 @@
 const express = require("express")
+const passport = require("passport")
+const session = require("express-session")
 const {engine} = require("express-handlebars")
+const morgan = require("morgan")
+
 const connect = require("./utils/db")
 
 require("dotenv").config()
+require("./utils/strategy")(passport)
 
 const app = express()
 
@@ -17,6 +22,23 @@ app.use(express.static("public"))
 app.use(express.json())
 //body-parser-form
 app.use(express.urlencoded({extended:true}))
+
+//session middleware
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      resave: false,
+      saveUninitialized: false,
+    })
+  )
+
+//passport middlewares
+app.use(passport.initialize())
+app.use(passport.session())
+
+//routes
+app.use("/index",require("./routes/index"))
+app.use("/auth",require("./routes/auth"))
 
 const PORT = process.env.PORT || 5000
 
