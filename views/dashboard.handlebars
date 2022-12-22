@@ -12,16 +12,17 @@
         </tr>
     </thead>
     <tbody>
+        {{#each content}}
         <tr>
-            <td><a href="/stories/{{_id}}">{{title}}</a></td>
-            <td>{{formatDate createdAt 'MMMM Do YYYY, h:mm:ss a'}}</td>
+            <td><a href="/content/{{_id}}">{{title}}</a></td>
+            <td>{{createdAt}}</td>
             <td><span class="dash-status">{{status}}</span></td>
             <td>
-                <a href="/stories/edit/{{_id}}" class="btn btn-float">
+                <a href="/content/edit/{{_id}}" class="btn btn-float">
                     <i class="fas fa-edit"></i>
                 </a>
 
-                <form action="/stories/{{_id}}" method="POST" id="delete-form">
+                <form action="/content/{{_id}}" method="POST" id="delete-form">
                     <input type="hidden" name="_method" value="DELETE">
                     <button type="submit" class="btn red">
                         <i class="fas fa-trash"></i>
@@ -29,7 +30,7 @@
                 </form>
             </td>
         </tr>
-
+        {{/each}}
     </tbody>
 </table>
 {{else}}

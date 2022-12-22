@@ -39,10 +39,14 @@ app.use(passport.session())
 //routes
 app.use("/",require("./routes/index"))
 app.use("/auth",require("./routes/auth"))
+app.use("/content",require("./routes/content"))
 
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT,()=>{
     connect()
-    console.log(`server started on port ${PORT}`)
+    console.log(`
+    server started on port ${PORT}
+    site:http://localhost:${PORT}
+    `)
 })

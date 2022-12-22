@@ -1,5 +1,6 @@
 const router = require("express").Router()
 
+const Content = require("../models/Content")
 const {verifyAuth, verifyLogin} = require("../middlewares/auth")
 
 router.get("/",verifyLogin,(req,res)=>{
@@ -8,11 +9,12 @@ router.get("/",verifyLogin,(req,res)=>{
     })
 })
 
-router.get("/dashboard",verifyAuth,(req,res)=>{
+router.get("/dashboard",verifyAuth,async(req,res)=>{
+    const content = await Content.find({user:req.user.id}).lean()
     res.render("dashboard",{
         name:req.user.firstname,
-        isAuthenticated:req.isAuthenticated()
-
+        isAuthenticated:req.isAuthenticated(),
+        content
     })
 })
 module.exports = router
