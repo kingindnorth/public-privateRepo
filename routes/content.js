@@ -1,27 +1,12 @@
 const router = require("express").Router()
 
-const Content = require("../models/Content")
-
 const {verifyAuth, verifyLogin} = require("../middlewares/auth")
+const {getContent, addContent, postContent} = require("../controllers/content")
 
-router.get("/",(req,res)=>{
-    res.render("content")
-})
+router.get("/",getContent)
 
-router.get("/add",verifyAuth,(req,res)=>{
-    res.render("content/add",{
-        isAuthenticated:req.isAuthenticated()
-    })
-})
+router.get("/add",verifyAuth,addContent)
 
-router.post("/",verifyAuth,async(req,res)=>{
-    try{
-        req.body.user = req.user.id
-        const content = await Content.create(req.body)
-        res.redirect("/dashboard")
-        
-    }catch(err){
-        res.status(500).render("error/500")
-    }
-})
+router.post("/",verifyAuth,postContent)
+
 module.exports = router
