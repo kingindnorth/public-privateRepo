@@ -5,6 +5,7 @@ const {engine} = require("express-handlebars")
 const morgan = require("morgan")
 
 const connect = require("./utils/db")
+const {formatDate} = require("./helpers/hbs")
 
 require("dotenv").config()
 require("./utils/strategy")(passport)
@@ -12,7 +13,7 @@ require("./utils/strategy")(passport)
 const app = express()
 
 //set view engine
-app.engine("handlebars",engine())
+app.engine(".hbs",engine())
 app.set("view engine","handlebars")
 
 //serving static files
