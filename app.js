@@ -13,7 +13,7 @@ require("./utils/strategy")(passport)
 const app = express()
 
 //set view engine
-app.engine(".hbs",engine())
+app.engine("handlebars", engine())
 app.set("view engine","handlebars")
 
 //serving static files
