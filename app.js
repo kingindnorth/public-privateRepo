@@ -5,7 +5,7 @@ const {engine} = require("express-handlebars")
 const morgan = require("morgan")
 
 const connect = require("./utils/db")
-const {formatDate} = require("./helpers/hbs")
+const {formatDate,truncate,stripTags,editIcon} = require("./helpers/hbs")
 
 require("dotenv").config()
 require("./utils/strategy")(passport)
@@ -14,7 +14,10 @@ const app = express()
 
 //register helper
 app.engine("handlebars", engine({helpers:{
-  formatDate
+  formatDate,
+  truncate,
+  stripTags,
+  editIcon
 }}))
 //set view engine
 app.set("view engine","handlebars")
@@ -39,6 +42,12 @@ app.use(
 //passport middlewares
 app.use(passport.initialize())
 app.use(passport.session())
+
+//global variables
+app.use((req,res,next)=>{
+  res.locals.user = req.user || null
+  next()
+})
 
 //routes
 app.use("/",require("./routes/index"))

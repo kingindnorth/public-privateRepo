@@ -1,9 +1,9 @@
 const router = require("express").Router()
 
 const {verifyAuth, verifyLogin} = require("../middlewares/auth")
-const {getContent, addContent, postContent} = require("../controllers/content")
+const {getAllContent, addContent, postContent} = require("../controllers/content")
 
-router.get("/",getContent)
+router.get("/",verifyAuth,getAllContent)
 
 router.get("/add",verifyAuth,addContent)
 

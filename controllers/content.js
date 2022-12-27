@@ -1,7 +1,12 @@
 const Content = require("../models/Content")
 
-const getContent = (req,res)=>{
-    res.render("content")
+const getAllContent = async(req,res)=>{
+    const content = await Content.find({status:"public"}).populate("user").sort({createdAt:"desc"}).lean()
+    console.log(content);
+    res.render("content/content",{
+     content,   
+     isAuthenticated:req.isAuthenticated()   
+    })
 }
 
 const addContent = (req,res)=>{
@@ -22,7 +27,7 @@ const postContent = async(req,res)=>{
 }
 
 module.exports = {
-    getContent,
+    getAllContent,
     addContent,
     postContent
 }
