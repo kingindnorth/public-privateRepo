@@ -12,8 +12,11 @@ require("./utils/strategy")(passport)
 
 const app = express()
 
+//register helper
+app.engine("handlebars", engine({helpers:{
+  formatDate
+}}))
 //set view engine
-app.engine("handlebars", engine())
 app.set("view engine","handlebars")
 
 //serving static files
