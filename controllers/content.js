@@ -26,8 +26,23 @@ const postContent = async(req,res)=>{
     }
 }
 
+const editContent = async(req,res) => {
+    try{
+        const param = req.params.id
+        const content = await Content.findOne({_id:param}).lean()
+        if(!content) return res.render("error/404")
+        if(content.user !== req.user._id) return res.render("error/404")
+        res.render("content/edit",{
+            content
+        })
+    }catch(err){
+        res.status(500).render("error/500")
+    }
+}
+
 module.exports = {
     getAllContent,
     addContent,
-    postContent
+    postContent,
+    editContent
 }
