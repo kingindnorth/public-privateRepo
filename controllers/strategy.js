@@ -5,7 +5,7 @@ const strategy = async(accessToken, refreshToken, profile, done)=>{
         googleId:profile.id,
         firstname:profile.name.givenName,
         lastname:profile.name.familyName,
-        photo:profile.photos[0].value
+        image:profile.photos[0].value
     }
     try{
         const user = await User.findOne({googleId:profile.id})

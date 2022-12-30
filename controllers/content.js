@@ -41,7 +41,7 @@ const editContent = async(req,res) => {
     }
 }
 
-const getContentById = async(req,res) => {
+const updateContentById = async(req,res) => {
     try{
         const param = req.params.id
         let content = await Content.findOne({_id:param})
@@ -66,7 +66,21 @@ const deleteContentById = async(req,res) => {
         await Content.findByIdAndDelete({_id:param})
         res.redirect("/dashboard")
     }catch(err){
-        console.log(err);
+        res.status(500).render("error/500")
+    }
+}
+
+const getContentById = async(req,res) => {
+    try{
+        const param = req.params.id
+        const content = await Content.findOne({_id:param}).populate("user").lean()
+        if(!content) return res.render("error/404")
+        if(!content.user._id.equals(req.user.id) && content.status === "private") return res.render("error/404")
+        console.log(content);
+        res.render("content/show",{
+            content,
+        })
+    }catch(err){
         res.status(500).render("error/500")
     }
 }
@@ -76,6 +90,7 @@ module.exports = {
     addContent,
     postContent,
     editContent,
-    getContentById,
-    deleteContentById
+    updateContentById,
+    deleteContentById,
+    getContentById
 }
