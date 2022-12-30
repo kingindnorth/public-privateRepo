@@ -57,10 +57,25 @@ const getContentById = async(req,res) => {
     }
 }
 
+const deleteContentById = async(req,res) => {
+    try{
+        const param = req.params.id
+        const content = await Content.findOne({_id:param})
+        if(!content) return res.render("error/404")
+        if(!content.user.equals(req.user._id)) return res.redirect("/content")
+        await Content.findByIdAndDelete({_id:param})
+        res.redirect("/dashboard")
+    }catch(err){
+        console.log(err);
+        res.status(500).render("error/500")
+    }
+}
+
 module.exports = {
     getAllContent,
     addContent,
     postContent,
     editContent,
-    getContentById
+    getContentById,
+    deleteContentById
 }
