@@ -7,9 +7,9 @@ const formatDate = (date,format) => {
 const truncate = (str) => {
     if (str.length > 120 && str.length > 0) {
       let new_str = str + ' '
-      new_str = str.substr(0, len)
+      new_str = str.substr(0, 120)
       new_str = str.substr(0, new_str.lastIndexOf(' '))
-      new_str = new_str.length > 0 ? new_str : str.substr(0, len)
+      new_str = new_str.length > 0 ? new_str : str.substr(0, 120)
       return new_str + '...'
     }
     return str
