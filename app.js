@@ -1,6 +1,7 @@
 const express = require("express")
 const passport = require("passport")
 const session = require("express-session")
+const methodOverride = require("method-override")
 const {engine} = require("express-handlebars")
 const morgan = require("morgan")
 
@@ -29,6 +30,18 @@ app.use(express.static("public"))
 app.use(express.json())
 //body-parser-form
 app.use(express.urlencoded({extended:true}))
+
+// Method override
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      let method = req.body._method
+      delete req.body._method
+      return method
+    }
+  })
+)
 
 //session middleware
 app.use(

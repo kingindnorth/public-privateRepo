@@ -41,9 +41,26 @@ const editContent = async(req,res) => {
     }
 }
 
+const getContentById = async(req,res) => {
+    try{
+        const param = req.params.id
+        let content = await Content.findOne({_id:param})
+        if(!content) return res.render("error/404")
+        if(!content.user.equals(req.user._id)) return res.redirect("/content")
+        content = await Content.findByIdAndUpdate({_id:param},req.body,{
+            new: true,
+            runValidators: true,
+          }) 
+        res.redirect("/dashboard")  
+    }catch(err){
+        res.status(500).render("error/500")
+    }
+}
+
 module.exports = {
     getAllContent,
     addContent,
     postContent,
-    editContent
+    editContent,
+    getContentById
 }
